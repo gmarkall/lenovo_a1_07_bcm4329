@@ -4,8 +4,10 @@
 
   DHD_KO_DIR=$MYDIR/wifi
 
-  cd /home/graham/android/ideapad_misc/lenovo_a1_07_kernel
-  LINUXDIR=`pwd`
+  if [ -z "$LINUXDIR" ]; then
+	  cd /home/graham/android/ideapad_misc/lenovo_a1_07_kernel
+	  LINUXDIR=`pwd`
+  fi
 
   cd $MYDIR/bcm4329_fxn_248/src/dhd/linux
   DHD_DIR=`pwd`
