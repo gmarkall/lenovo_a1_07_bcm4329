@@ -3,6 +3,7 @@
   MYDIR=`pwd`
 
   DHD_KO_DIR=$MYDIR/wifi
+  mkdir -p $DHD_KO_DIR
 
   if [ -z "$LINUXDIR" ]; then
 	  cd /home/graham/android/ideapad_misc/lenovo_a1_07_kernel
