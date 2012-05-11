@@ -220,6 +220,19 @@ typedef struct dhd_pub {
 	} while (0)
 
 	#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27)) && defined(CONFIG_PM_SLEEP) */
+
+/* Wakelock Functions */ 
+extern int dhd_os_wake_lock(dhd_pub_t *pub); 
+extern int dhd_os_wake_unlock(dhd_pub_t *pub); 
+extern int dhd_os_wake_lock_timeout(dhd_pub_t *pub); 
+extern int dhd_os_wake_lock_timeout_enable(dhd_pub_t *pub); 
+ 
+extern void dhd_os_start_lock(dhd_pub_t *pub); 
+extern void dhd_os_start_unlock(dhd_pub_t *pub); 
+extern unsigned long dhd_os_spin_lock(dhd_pub_t *pub); 
+extern void dhd_os_spin_unlock(dhd_pub_t *pub, unsigned long flags); 
+
+
 #define DHD_IF_VIF	0x01	/* Virtual IF (Hidden from user) */
 
 inline static void NETIF_ADDR_LOCK(struct net_device *dev)
