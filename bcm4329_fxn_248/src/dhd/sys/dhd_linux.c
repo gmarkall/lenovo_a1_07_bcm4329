@@ -2117,6 +2117,15 @@ dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen)
 	spin_lock_init(&dhd->sdlock);
 	spin_lock_init(&dhd->txqlock);
 	spin_lock_init(&dhd->dhd_lock);
+
+        /* Initialize Wakelock stuff */
+        spin_lock_init(&dhd->wl_lock);
+        dhd->wl_count = 0;
+        dhd->wl_packet = 0;
+#ifdef CONFIG_HAS_WAKELOCK
+        wake_lock_init(&dhd->wl_wifi, WAKE_LOCK_SUSPEND, "wlan_wake");
+        wake_lock_init(&dhd->wl_rxwake, WAKE_LOCK_SUSPEND, "wlan_rx_wake");
+#endif
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 25)) && 1
 	mutex_init(&dhd->wl_start_lock);
 #endif 
@@ -2617,6 +2626,10 @@ dhd_detach(dhd_pub_t *dhdp)
 		WAKE_LOCK_DESTROY(dhdp, WAKE_LOCK_LINK_DOWN_TMOUT);
 		WAKE_LOCK_DESTROY(dhdp, WAKE_LOCK_PNO_FIND_TMOUT);
 		free_netdev(ifp->net);
+#ifdef CONFIG_HAS_WAKELOCK
+                        wake_lock_destroy(&dhd->wl_wifi);
+                        wake_lock_destroy(&dhd->wl_rxwake);
+#endif
 		MFREE(dhd->pub.osh, ifp, sizeof(*ifp));
 		MFREE(dhd->pub.osh, dhd, sizeof(*dhd));
 	}
